@@ -1,0 +1,8 @@
+INSERT INTO django_migrations (app, name, applied) VALUES (%s, %s, %s)
+SELECT django_content_type.id, django_content_type.app_label, django_content_type.model FROM django_content_type WHERE django_content_type.app_label exact %s
+INSERT INTO django_content_type (app_label, model) VALUES (%s, %s)
+SELECT django_content_type.id, django_content_type.app_label, django_content_type.model FROM django_content_type WHERE (django_content_type.app_label exact %s AND django_content_type.model exact %s)
+SELECT auth_permission.content_type_id, auth_permission.codename FROM auth_permission INNER JOIN django_content_type ON (auth_permission.content_type_id = django_content_type.id) WHERE auth_permission.content_type_id IN (%s) ORDER BY django_content_type.app_label ASC, django_content_type.model ASC, auth_permission.codename ASC
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s)
+INSERT INTO django_content_type (app_label, model) VALUES (%s, %s), (%s, %s), (%s, %s)
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s), (%s, %s, %s)

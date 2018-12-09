@@ -14,9 +14,12 @@ from django.db.backends.base.creation import BaseDatabaseCreation
 from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from django.db.backends.dummy.features import DummyDatabaseFeatures
-
+from unittest.mock import MagicMock
 
 def complain(*args, **kwargs):
+    return MagicMock(*args, **kwargs)
+    
+def complain2(*args, **kwargs):
     raise ImproperlyConfigured("settings.DATABASES is improperly configured. "
                                "Please supply the ENGINE value. Check "
                                "settings documentation for more details.")
@@ -27,11 +30,11 @@ def ignore(*args, **kwargs):
 
 
 class DatabaseOperations(BaseDatabaseOperations):
-    quote_name = complain
+    quote_name = MagicMock
 
 
 class DatabaseClient(BaseDatabaseClient):
-    runshell = complain
+    runshell = MagicMock
 
 
 class DatabaseCreation(BaseDatabaseCreation):
@@ -40,11 +43,11 @@ class DatabaseCreation(BaseDatabaseCreation):
 
 
 class DatabaseIntrospection(BaseDatabaseIntrospection):
-    get_table_list = complain
-    get_table_description = complain
-    get_relations = complain
-    get_indexes = complain
-    get_key_columns = complain
+    get_table_list = MagicMock
+    get_table_description = MagicMock
+    get_relations = MagicMock
+    get_indexes = MagicMock
+    get_key_columns = MagicMock
 
 
 class DatabaseWrapper(BaseDatabaseWrapper):
@@ -53,15 +56,15 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     # implementations. Anything that tries to actually
     # do something raises complain; anything that tries
     # to rollback or undo something raises ignore.
-    _cursor = complain
-    ensure_connection = complain
-    _commit = complain
+    _cursor = MagicMock
+    ensure_connection = MagicMock
+    _commit = MagicMock
     _rollback = ignore
     _close = ignore
     _savepoint = ignore
-    _savepoint_commit = complain
+    _savepoint_commit = MagicMock
     _savepoint_rollback = ignore
-    _set_autocommit = complain
+    _set_autocommit = MagicMock
     # Classes instantiated in __init__().
     client_class = DatabaseClient
     creation_class = DatabaseCreation
